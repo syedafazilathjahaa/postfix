@@ -10,8 +10,25 @@ on:
       - master
     
 jobs:
+  build:
+
+    runs-on: ubuntu-latest    
+     
+    steps:
+        
+      - name: Build and push docker image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+          image: khushi2/oss-fuzz
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
  Fuzzing:
    runs-on: ubuntu-latest
+   concurrency:
+      group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
+      cancel-in-progress: true
    
    strategy:
         fail-fast: false
@@ -32,22 +49,31 @@ jobs:
       SANITIZER: ${{ matrix.sanitizer }}
       ARCHITECTURE: ${{ matrix.architecture }}
       
+   
    steps:
-   - name: Build Fuzzers
-     id: build
-     uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
-     with:
-       language: c
-   - name: Run Fuzzers
-     uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
-     with:
-       language: c
-       fuzz-seconds: 600
-   - name: Upload Crash
-     uses: actions/upload-artifact@v1
-     if: failure() && steps.build.outcome == 'success'
-     with:
-       name: artifacts
-       path: ./out/artifacts
-       
-       
+     - uses: actions/checkout@v3
+     - name: Build Fuzzers (${{ matrix.sanitizer }})
+       id: build
+       uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+       with:
+        github-token: ${{ secrets.TOKEN }}    
+        language: c
+        dry-run: false
+        sanitizer: ${{ matrix.sanitizer }}
+        upload-build: true
+        keep-unaffected-fuzz-targets: true
+     
+        
+     - name: Run Fuzzers (${{ matrix.sanitizer }})
+       uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+       with:
+        github-token: ${{ secrets.TOKEN }}
+        language: c
+        fuzz-seconds: 800
+        mode: 'batch'
+        dry-run: false
+        report-unreproducible-crashes: true
+        keep-unaffected-fuzz-targets: true
+        sanitizer: ${{ matrix.sanitizer }}
+        
+      
