@@ -31,7 +31,7 @@ $CC $CFLAGS -DHAS_DEV_URANDOM -DSNAPSHOT -UUSE_DYNAMIC_LIBS -DDEF_SHLIB_DIR=\"no
 
 # Link fuzzers
 cd ${BASE}
-$CC $CFLAGS $LIB_FUZZING_ENGINE ./src/global/fuzz_tok822.o -o $OUT/fuzz_tok822 \
+$CC $CFLAGS $AFL_FUZZING_ENGINE ./src/global/fuzz_tok822.o -o $OUT/fuzz_tok822 \
   ./lib/libglobal.a ./lib/libutil.a
-$CC $CFLAGS $LIB_FUZZING_ENGINE ./src/global/fuzz_mime.o -o $OUT/fuzz_mime \
+$CC $CFLAGS $AFL_FUZZING_ENGINE ./src/global/fuzz_mime.o -o $OUT/fuzz_mime \
   ./lib/libglobal.a ./lib/libutil.a -ldb -lnsl
