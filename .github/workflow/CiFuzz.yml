@@ -37,14 +37,10 @@ jobs:
      id: build
      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
      with:
-       oss-fuzz-project-name: 'postfix'
-       project-src-path: 'vdukhovni/postfix'
        language: c
    - name: Run Fuzzers
      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
      with:
-       oss-fuzz-project-name: 'postfix'
-       project-src-path: 'syedafazilathjahaa/postfix'
        language: c
        fuzz-seconds: 600
    - name: Upload Crash
