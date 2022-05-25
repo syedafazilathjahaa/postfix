@@ -35,17 +35,17 @@ jobs:
         matrix:
             sanitizer: 
               - address
-            engine:
-              - afl
+            FUZZING_ENGINE:
+               - afl
             architecture:
               - x86_64
             include:
-              - engine: afl
+              - FUZZING_ENGINE: afl
                 sanitizer: address
                 architecture: x86_64
                 
    env:
-      ENGINE: ${{ matrix.engine }}
+      FUZZING_ENGINE: ${{ matrix.FUZZING_ENGINE }}
       SANITIZER: ${{ matrix.sanitizer }}
       ARCHITECTURE: ${{ matrix.architecture }}
       
@@ -58,6 +58,7 @@ jobs:
        id: build
        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
        with:
+        FUZZING_ENGINE: ${{ matrix.FUZZING_ENGINE }}
         github-token: ${{ secrets.TOKEN }}    
         language: c
         dry-run: false
@@ -69,6 +70,7 @@ jobs:
      - name: Run Fuzzers (${{ matrix.sanitizer }})
        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
        with:
+        FUZZING_ENGINE: ${{ matrix.FUZZING_ENGINE }}
         github-token: ${{ secrets.TOKEN }}
         language: c
         fuzz-seconds: 800
