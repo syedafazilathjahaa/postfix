@@ -20,5 +20,5 @@ RUN git clone --depth=1 https://github.com/vdukhovni/postfix postfix
 COPY . .
 COPY . $SRC/postfix
 WORKDIR postfix
-COPY build.sh $SRC/
-COPY *.c $SRC/
+COPY .clusterfuzzlite/build.sh $SRC/
+COPY .clusterfuzzlite/*.c $SRC/
