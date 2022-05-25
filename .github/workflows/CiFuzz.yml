@@ -85,4 +85,3 @@ jobs:
         keep-unaffected-fuzz-targets: true
         sanitizer: ${{ matrix.sanitizer }}
         
-      
