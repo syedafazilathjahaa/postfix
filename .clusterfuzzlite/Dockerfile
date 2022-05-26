@@ -92,4 +92,4 @@ ENV IS_DOCKER="1"
 COPY . $SRC/postfix
 WORKDIR postfix
 COPY .clusterfuzzlite/build.sh $SRC/
-COPY .clusterfuzzlite/*.c $SRC/
+COPY .clusterfuzzlite/*.c .clusterfuzzlite/project.yaml $SRC/
