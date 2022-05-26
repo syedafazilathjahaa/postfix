@@ -74,6 +74,7 @@ RUN cd /afl-cov && make install && cd ..
 
 
 RUN export CC=clang && export CXX=clang++
+RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
 
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
