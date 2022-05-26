@@ -73,7 +73,7 @@ RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
 
 
-RUN export CC=gcc-12 && export CXX=g++-12 
+RUN export CC=clang && export CXX=clang++
 
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
