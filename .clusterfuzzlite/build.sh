@@ -1,6 +1,6 @@
 set -e
 CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS=-fsanitize=address
-CC= afl-gcc-fast CXX=afl-g++-fast
+
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
 export AFL_SKIP_OSSFUZZ=1
@@ -11,7 +11,7 @@ export CC CXX
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
 cd afl-build
-export CC CXX
+set $AFL_CC=gcc
 make
 
 make source-only
