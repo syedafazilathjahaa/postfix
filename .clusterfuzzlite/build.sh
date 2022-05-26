@@ -12,8 +12,8 @@ export CC CXX
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
 cd afl-build
-CC=gcc
-CXX=g++
+CC=afl-clang-fast
+CXX=afl-clang-fast++
 export CC CXX
 
 make source-only
