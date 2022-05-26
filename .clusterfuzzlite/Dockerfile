@@ -26,7 +26,7 @@ RUN apt-get install -y \
     wget \
     gdb \
     llvm-dev \
-    llvm \
+    llvm 14.0.0 \
     clang 
     
 RUN apt-get -y install afl++
