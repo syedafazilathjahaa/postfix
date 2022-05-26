@@ -52,9 +52,6 @@ RUN [ "$TARGETPLATFORM" = "linux/amd64" ] && \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 0
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 0
-
 ENV LLVM_CONFIG=llvm-config-14
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
