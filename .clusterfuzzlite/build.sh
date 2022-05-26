@@ -2,7 +2,7 @@ set -e
 CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
 export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
-set $LIB_FUZZING_ENGINE=AFL
+set LIB_FUZZING_ENGINE=afl
 
 cd postfix
 make makefiles CCARGS="${CFLAGS}"
