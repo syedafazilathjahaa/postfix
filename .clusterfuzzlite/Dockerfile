@@ -72,7 +72,7 @@ ENV gcc=gcc-7-plugin-dev
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-ENV LIB_FUZZING_ENGINE=afl
+ENV FUZZING_ENGINE=afl
 
 RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
@@ -80,6 +80,7 @@ RUN cd /afl-cov && make install && cd ..
 
 RUN export CC=clang && export CXX=clang++
 RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
+RUN export FUZZING_ENGINE=afl
 
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
