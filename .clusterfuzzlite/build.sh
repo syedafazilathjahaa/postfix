@@ -1,8 +1,7 @@
 set -e
 CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS=-fsanitize=address
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
-set AFL_CC=afl-gcc-fast
-set AFL_CXX=afl-g++-fast
+
 export AFL_SKIP_OSSFUZZ=1
 export AFL_LLVM_INSTRUMENT=CLASSIC
 export AFL_LLVM_MODE_WORKAROUND=0
@@ -11,6 +10,9 @@ export AFL_LLVM_MODE_WORKAROUND=0
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
 cd afl-build
+set $AFL_CC=afl-gcc-fast
+set $AFL_CXX=afl-g++-fast
+make
 
 make source-only
 ar ru FuzzingEngine.a afl-compiler-rt.o utils/aflpp_driver/aflpp_driver.o
