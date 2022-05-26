@@ -1,5 +1,6 @@
 set -e
-CC=afl-clang-fast CFLAGS=-fsanitize=address
+CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS=-fsanitize=address
+LLVM_CONFIG=llvm-config-14
 
 
 rm -rf afl-build
@@ -14,7 +15,7 @@ echo "Success: link fuzz target against FuzzingEngine.a!"
 
 
 
-./build_afl.bash
+
 # Compile target using ASan, coverage instrumentation, and link against FuzzingEngine.a
 $CXX -fsanitize=address fuzz_mime.c FuzzingEngine.a -o fuzzer
 $CXX -fsanitize=address fuzz_tok822.c FuzzingEngine.a -o fuzzer
