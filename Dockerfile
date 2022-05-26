@@ -43,14 +43,6 @@ RUN apt-get update && \
 RUN echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu jammy main" >> /etc/apt/sources.list && \
     apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1E9377A2BA9EF27F
     
-RUN apt-get full-upgrade -y && \
-    apt-get -y install --no-install-suggests --no-install-recommends \
-    gcc-12 g++-12 gcc-12-plugin-dev gdb lcov \
-    clang-14 clang-tools-14 libc++1-14 libc++-14-dev \
-    libc++abi1-14 libc++abi-14-dev libclang1-14 libclang-14-dev \
-    libclang-common-14-dev libclang-cpp14 libclang-cpp14-dev liblld-14 \
-    liblld-14-dev liblldb-14 liblldb-14-dev libllvm14 libomp-14-dev \
-    libomp5-14 lld-14 lldb-14 llvm-14 llvm-14-dev llvm-14-runtime llvm-14-tools
 
 # arm64 doesn't have gcc-multilib, and it's only used for -m32 support on x86
 ARG TARGETPLATFORM
