@@ -67,7 +67,7 @@ RUN [ "$TARGETPLATFORM" = "linux/amd64" ] && \
 RUN rm -rf /var/lib/apt/lists/*
 
 ENV LLVM_CONFIG=llvm-config-10
-ENV gcc=/usr/bin/gcc.exe /usr/lib/gcc /usr/share/man/man1/gcc.1.gz
+ENV gcc=/usr/bin/gcc.exe 
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
