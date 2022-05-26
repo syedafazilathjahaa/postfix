@@ -28,7 +28,7 @@ RUN apt-get install -y \
     llvm-dev \
     llvm \
     clang \
-    libasan
+    
 RUN apt-get -y install afl++
 RUN apt-get update && \
     apt-get -y install --no-install-suggests --no-install-recommends \
