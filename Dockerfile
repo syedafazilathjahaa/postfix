@@ -18,7 +18,32 @@ FROM gcr.io/oss-fuzz-base/base-builder
 RUN apt-get update && apt-get install -y make autoconf automake libtool libdb-dev
 RUN git clone --depth=1 https://github.com/vdukhovni/postfix postfix
 RUN apt-get -y install afl++
-RUN apt-get update && apt-get full-upgrade -y && \
+RUN apt-get update && \
+    apt-get -y install --no-install-suggests --no-install-recommends \
+    automake \
+    cmake \
+    meson \
+    ninja-build \
+    bison flex \
+    build-essential \
+    git \
+    python3 python3-dev python3-setuptools python-is-python3 \
+    libtool libtool-bin \
+    libglib2.0-dev \
+    wget vim jupp nano bash-completion less \
+    apt-utils apt-transport-https ca-certificates gnupg dialog \
+    libpixman-1-dev \
+    gnuplot-nox \
+    && rm -rf /var/lib/apt/lists/*
+
+# TODO: reactivate in timely manner
+#RUN echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main" >> /etc/apt/sources.list && \
+#    wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+
+RUN echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu jammy main" >> /etc/apt/sources.list && \
+    apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1E9377A2BA9EF27F
+    
+RUN apt-get full-upgrade -y && \
     apt-get -y install --no-install-suggests --no-install-recommends \
     gcc-12 g++-12 gcc-12-plugin-dev gdb lcov \
     clang-14 clang-tools-14 libc++1-14 libc++-14-dev \
