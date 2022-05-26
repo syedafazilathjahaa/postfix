@@ -27,8 +27,9 @@ RUN apt-get install -y \
     gdb \
     llvm-dev \
     llvm-10 \
-    clang   \
-    gcc-4.8-plugin-dev 
+    clang   
+
+RUN apt-get install -y gcc-7-plugin-dev   
     
 RUN apt-get -y install afl++
 RUN apt-get update && \
