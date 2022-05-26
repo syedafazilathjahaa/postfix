@@ -1,5 +1,5 @@
 set -e
-CC=clang  CXX=clang++ CFLAGS=-fsanitize=address 
+CC=clang  CXX=clang++ CFLAGS=-fsanitize=address LIB_FUZZING_ENGINE=FuzzingEngine.a
 export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
