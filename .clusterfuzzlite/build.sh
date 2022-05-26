@@ -1,6 +1,6 @@
 set -e
 CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS=-fsanitize=address
-LLVM_CONFIG=~/llvm-project/build/bin/llvm-config make
+LLVM_CONFIG=~/llvm-project/build/bin/llvm-config
 
 
 rm -rf afl-build
