@@ -1,6 +1,5 @@
 set -e
-CC=${CC:-clang}
-CXX=${CXX:-clang++}
+make CC=afl-clang-fast CFLAGS=-fsanitize=address
 
 
 rm -rf afl-build
