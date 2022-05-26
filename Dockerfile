@@ -17,6 +17,18 @@
 FROM gcr.io/oss-fuzz-base/base-builder
 RUN apt-get update && apt-get install -y make autoconf automake libtool libdb-dev
 RUN git clone --depth=1 https://github.com/vdukhovni/postfix postfix
+RUN apt-get install -y \
+    libc6-dev \
+    libc++-dev \
+    gcc \
+    g++ \
+    make \
+    wget \
+    gdb \
+    llvm-dev \
+    llvm \
+    clang \
+    libasan
 RUN apt-get -y install afl++
 RUN apt-get update && \
     apt-get -y install --no-install-suggests --no-install-recommends \
@@ -61,8 +73,9 @@ RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
 
 
-RUN export CC=gcc-12 && export CXX=g++-12 && \
-    make distrib && make install 
+RUN export CC=gcc-12 && export CXX=g++-12 && make clean && \
+    make distrib && make install && make clean
+
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
 RUN echo '. /etc/bash_completion' >> ~/.bashrc
