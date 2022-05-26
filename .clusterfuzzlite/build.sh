@@ -25,8 +25,8 @@ $CC -fsanitize=address .clusterfuzzlite/fuzz_tok822.c FuzzingEngine.a -o fuzz_to
 
 # Test out the build by fuzzing it. INPUT_CORPUS is a directory containing files. Ctrl-C when done.
 
-AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS -o output -m none ./fuzz_mime
-AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS -o output -m none ./fuzz_tok822
+AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS1 -o output -m none ./fuzz_mime
+AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS2 -o output -m none ./fuzz_tok822
 
 
 # Create a fuzzer build to upload to ClusterFuzz.
