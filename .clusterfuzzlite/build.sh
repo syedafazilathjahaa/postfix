@@ -2,6 +2,10 @@ set -e
 CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS=-fsanitize=address
 LLVM_CONFIG=/usr/bin/llvm-config-10
 
+cd llvm_mode
+set $LLVM_CONFIG=llvm-config-10
+make
+
 
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
