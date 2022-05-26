@@ -26,7 +26,7 @@ RUN apt-get install -y \
     wget \
     gdb \
     llvm-dev \
-    llvm 14.0.0 \
+    llvm 10 \
     clang 
     
 RUN apt-get -y install afl++
@@ -64,7 +64,7 @@ RUN [ "$TARGETPLATFORM" = "linux/amd64" ] && \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV LLVM_CONFIG=llvm-config-14
+ENV LLVM_CONFIG=llvm-config-10
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
