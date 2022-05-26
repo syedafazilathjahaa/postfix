@@ -21,26 +21,23 @@ RUN apt-get install -y \
     libc6-dev \
     libc++-dev \
     gcc \
-    gcc-7-plugin-dev \
     g++ \
     make \
     wget \
     gdb \
     llvm-dev \
-    llvm \
-    clang 
+    llvm-10 \
+    clang   
+
+RUN apt-get install -y gcc-7-plugin-dev   
     
 RUN apt-get -y install afl++
 RUN apt-get update && \
     apt-get -y install --no-install-suggests --no-install-recommends \
     automake \
     cmake \
-    meson \
-    ninja-build \
-    bison flex \
     build-essential \
     git \
-    python3 python3-dev python3-setuptools python-is-python3 \
     libtool libtool-bin \
     libglib2.0-dev \
     wget vim jupp nano bash-completion less \
@@ -65,16 +62,21 @@ RUN [ "$TARGETPLATFORM" = "linux/amd64" ] && \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV LLVM_CONFIG=llvm-config-14
+ENV LLVM_CONFIG=llvm-config-10
+ENV gcc=/usr/bin/gcc.exe 
+ENV gcc=gcc-7-plugin-dev
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+ENV $LIB_FUZZING_ENGINE=FuzzingEngine.a
 
 RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
 
 
-RUN export CC=gcc-12 && export CXX=g++-12 
+RUN export CC=clang && export CXX=clang++
+RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
+RUN export FUZZING_ENGINE=afl
 
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
@@ -86,4 +88,4 @@ ENV IS_DOCKER="1"
 COPY . $SRC/postfix
 WORKDIR postfix
 COPY .clusterfuzzlite/build.sh $SRC/
-COPY .clusterfuzzlite/*.c $SRC/
+COPY .clusterfuzzlite/*.c .clusterfuzzlite/project.yaml $SRC/
