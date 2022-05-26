@@ -2,7 +2,7 @@ set -e
 CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
 
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
-set $gcc=/usr/bin/gcc.exe /usr/lib/gcc /usr/share/man/man1/gcc.1.gz
+
 
 export AFL_SKIP_OSSFUZZ=1
 export AFL_LLVM_INSTRUMENT=CLASSIC
@@ -12,8 +12,6 @@ export CC CXX
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
 cd afl-build
-export CC CXX
-
 make source-only
 ar ru FuzzingEngine.a afl-compiler-rt.o utils/aflpp_driver/aflpp_driver.o
 
