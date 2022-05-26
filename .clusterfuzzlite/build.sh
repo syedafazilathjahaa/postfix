@@ -2,10 +2,6 @@ set -e
 CC=${CC:-clang}
 CXX=${CXX:-clang++}
 
-cd postfix
-make makefiles CCARGS="${CFLAGS}"
-make
-BASE=$PWD
 
 rm -rf afl-build
 git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
