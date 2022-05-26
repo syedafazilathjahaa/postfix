@@ -21,6 +21,7 @@ RUN apt-get install -y \
     libc6-dev \
     libc++-dev \
     gcc \
+    gcc-X-plugin-dev \
     g++ \
     make \
     wget \
