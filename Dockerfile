@@ -60,8 +60,6 @@ ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
 
-COPY . /AFLplusplus $SRC/
-
 
 RUN export CC=gcc-12 && export CXX=g++-12 && make clean && \
     make distrib && make install && make clean
