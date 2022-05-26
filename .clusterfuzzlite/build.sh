@@ -1,3 +1,6 @@
+CC=clang
+CXX=clang++
+export CC CXX
 cd postfix
 make makefiles CCARGS="${CFLAGS}"
 make
