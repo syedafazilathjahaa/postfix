@@ -68,6 +68,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 ENV LLVM_CONFIG=llvm-config-10
 ENV gcc=/usr/bin/gcc.exe 
+ENV gcc=gcc-7-plugin-dev
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
