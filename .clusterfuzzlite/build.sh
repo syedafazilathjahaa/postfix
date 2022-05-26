@@ -1,6 +1,6 @@
 set -e
-CC=${CC:-clang}
-CXX=${CXX:-clang++}
+CC=${CC:-afl-clang-fast}
+CXX=${CXX:-afl-clang-fast++}
 
 
 rm -rf afl-build
