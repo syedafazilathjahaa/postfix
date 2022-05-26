@@ -72,7 +72,7 @@ ENV gcc=gcc-7-plugin-dev
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-ENV FUZZING_ENGINE=afl
+ENV $LIB_FUZZING_ENGINE=FuzzingEngine.a
 
 RUN git clone --depth=1 https://github.com/vanhauser-thc/afl-cov /afl-cov
 RUN cd /afl-cov && make install && cd ..
