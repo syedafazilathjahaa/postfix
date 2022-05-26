@@ -1,5 +1,5 @@
 set -e
-make CC=afl-clang-fast CFLAGS=-fsanitize=address
+CC=afl-clang-fast CFLAGS=-fsanitize=address
 
 
 rm -rf afl-build
