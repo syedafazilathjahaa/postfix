@@ -1,5 +1,5 @@
 set -e
-CC=clang  CXX=clang++ CFLAGS=-fsanitize=address LIB_FUZZING_ENGINE=FuzzingEngine.a
+CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
 export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
@@ -9,19 +9,26 @@ make makefiles CCARGS="${CFLAGS}"
 make
 BASE=$PWD
 
-# Compile fuzzers
-cd ${BASE}/src/global
-$CC $CFLAGS -DHAS_DEV_URANDOM -DSNAPSHOT -UUSE_DYNAMIC_LIBS -DDEF_SHLIB_DIR=\"no\" \
-               -UUSE_DYNAMIC_MAPS -I. -I../../include -DNO_EAI -DDEF_SMTPUTF8_ENABLE=\"no\" \
-                -g -O -DLINUX4 -Wformat -Wno-comment -fno-common -c $SRC/fuzz_tok822.c
-$CC $CFLAGS  -DHAS_DEV_URANDOM -DSNAPSHOT -UUSE_DYNAMIC_LIBS -DDEF_SHLIB_DIR=\"no\" \
-               -UUSE_DYNAMIC_MAPS -I. -I../../include -DNO_EAI -DDEF_SMTPUTF8_ENABLE=\"no\" \
-                -g -O -DLINUX4 -Wformat -Wno-comment -fno-common -c $SRC/fuzz_mime.c
+
+rm -rf afl-build
+git clone --depth=1 https://github.com/AFLplusplus/AFLplusplus afl-build
+cd afl-build
+make source-only
+ar ru FuzzingEngine.a afl-compiler-rt.o utils/aflpp_driver/aflpp_driver.o 
+
+cp -f FuzzingEngine.a afl-fuzz afl-showmap ../
+echo "Success: link fuzz target against FuzzingEngine.a!"
+
+# Compile target using ASan, coverage instrumentation, and link against FuzzingEngine.a
+$CC -fsanitize=address .clusterfuzzlite/fuzz_mime.c FuzzingEngine.a -o fuzz_mime
+$CC -fsanitize=address .clusterfuzzlite/fuzz_tok822.c FuzzingEngine.a -o fuzz_tok822
+
+# Test out the build by fuzzing it. INPUT_CORPUS is a directory containing files. Ctrl-C when done.
+
+AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS -o output -m none ./fuzz_mime
+AFL_SKIP_CPUFREQ=1 ./afl-fuzz -i $INPUT_CORPUS -o output -m none ./fuzz_tok822
 
 
-# Link fuzzers
-cd ${BASE}
-$CC $CFLAGS $LIB_FUZZING_ENGINE ./src/global/fuzz_tok822.o -o $OUT/fuzz_tok822 \
-  ./lib/libglobal.a ./lib/libutil.a
-$CC $CFLAGS $LIB_FUZZING_ENGINE ./src/global/fuzz_mime.o -o $OUT/fuzz_mime \
-  ./lib/libglobal.a ./lib/libutil.a -ldb -lnsl
+# Create a fuzzer build to upload to ClusterFuzz.
+zip fuzz_mime-build.zip fuzz_mime afl-fuzz afl-showmap
+zip fuzz_tok822-build.zip fuzz_tok822 afl-fuzz afl-showmap
