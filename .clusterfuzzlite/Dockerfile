@@ -29,7 +29,7 @@ RUN apt-get install -y \
     llvm-10 \
     clang   
 
-RUN apt-get install -y gcc-7-plugin-dev   
+
     
 RUN apt-get -y install afl++
 RUN apt-get update && \
@@ -66,6 +66,7 @@ RUN [ "$TARGETPLATFORM" = "linux/amd64" ] && \
 
 RUN rm -rf /var/lib/apt/lists/*
 
+ENV FUZZING_ENGINE=afl
 ENV LLVM_CONFIG=llvm-config-10
 ENV gcc=/usr/bin/gcc.exe 
 ENV gcc=gcc-7-plugin-dev
@@ -80,7 +81,6 @@ RUN cd /afl-cov && make install && cd ..
 
 RUN export CC=clang && export CXX=clang++
 RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
-RUN export FUZZING_ENGINE=afl
 
 
 RUN sh -c 'echo set encoding=utf-8 > /root/.vimrc'
